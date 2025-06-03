@@ -1,0 +1,509 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Advanced Particle Background */
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -2;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #667eea 75%, #764ba2 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        .particle-container:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.1) 100%);
+            z-index: 1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Floating Geometric Shapes with Dynamic Colors */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        /* Color Cycling Animation */
+        @keyframes colorCycle {
+            0% { filter: hue-rotate(0deg) brightness(1.2); }
+            25% { filter: hue-rotate(90deg) brightness(1.4); }
+            50% { filter: hue-rotate(180deg) brightness(1.1); }
+            75% { filter: hue-rotate(270deg) brightness(1.3); }
+            100% { filter: hue-rotate(360deg) brightness(1.2); }
+        }
+
+        /* Circles with Dynamic Colors */
+        .particle.circle {
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(2px);
+            animation: float 20s linear infinite, colorCycle 8s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Generate multiple circles with different properties */
+        .particle.circle:nth-child(1) { width: 20px; height: 20px; left: 5%; animation-delay: 0s; animation-duration: 25s, 8s; }
+        .particle.circle:nth-child(2) { width: 40px; height: 40px; left: 15%; animation-delay: 2s; animation-duration: 30s, 12s; }
+        .particle.circle:nth-child(3) { width: 15px; height: 15px; left: 25%; animation-delay: 4s; animation-duration: 20s, 6s; }
+        .particle.circle:nth-child(4) { width: 35px; height: 35px; left: 35%; animation-delay: 1s; animation-duration: 35s, 10s; }
+        .particle.circle:nth-child(5) { width: 25px; height: 25px; left: 45%; animation-delay: 6s; animation-duration: 28s, 9s; }
+        .particle.circle:nth-child(6) { width: 18px; height: 18px; left: 55%; animation-delay: 3s; animation-duration: 22s, 7s; }
+        .particle.circle:nth-child(7) { width: 30px; height: 30px; left: 65%; animation-delay: 8s; animation-duration: 32s, 11s; }
+        .particle.circle:nth-child(8) { width: 22px; height: 22px; left: 75%; animation-delay: 5s; animation-duration: 26s, 8s; }
+        .particle.circle:nth-child(9) { width: 28px; height: 28px; left: 85%; animation-delay: 7s; animation-duration: 29s, 13s; }
+        .particle.circle:nth-child(10) { width: 16px; height: 16px; left: 95%; animation-delay: 9s; animation-duration: 24s, 5s; }
+
+        /* Triangles with Color Animation */
+        .particle.triangle {
+            width: 0;
+            height: 0;
+            animation: floatRotate 15s linear infinite, colorCycle 10s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+        }
+
+        .particle.triangle:nth-child(11) { border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 25px solid rgba(255, 255, 255, 0.12); left: 8%; animation-delay: 3s; animation-duration: 28s, 9s; }
+        .particle.triangle:nth-child(12) { border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 35px solid rgba(255, 255, 255, 0.1); left: 18%; animation-delay: 7s; animation-duration: 22s, 11s; }
+        .particle.triangle:nth-child(13) { border-left: 12px solid transparent; border-right: 12px solid transparent; border-bottom: 20px solid rgba(255, 255, 255, 0.14); left: 38%; animation-delay: 11s; animation-duration: 31s, 7s; }
+        .particle.triangle:nth-child(14) { border-left: 18px solid transparent; border-right: 18px solid transparent; border-bottom: 30px solid rgba(255, 255, 255, 0.11); left: 58%; animation-delay: 4s; animation-duration: 25s, 8s; }
+        .particle.triangle:nth-child(15) { border-left: 16px solid transparent; border-right: 16px solid transparent; border-bottom: 28px solid rgba(255, 255, 255, 0.13); left: 78%; animation-delay: 9s; animation-duration: 27s, 12s; }
+        .particle.triangle:nth-child(16) { border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 24px solid rgba(255, 255, 255, 0.09); left: 88%; animation-delay: 6s; animation-duration: 33s, 6s; }
+
+        /* Squares with rotation and color */
+        .particle.square {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(3px);
+            animation: floatRotate 18s linear infinite, colorCycle 7s ease-in-out infinite;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .particle.square:nth-child(17) { width: 25px; height: 25px; left: 12%; animation-delay: 5s; animation-duration: 26s, 8s; }
+        .particle.square:nth-child(18) { width: 18px; height: 18px; left: 22%; animation-delay: 8s; animation-duration: 32s, 12s; }
+        .particle.square:nth-child(19) { width: 22px; height: 22px; left: 42%; animation-delay: 2s; animation-duration: 29s, 6s; }
+        .particle.square:nth-child(20) { width: 30px; height: 30px; left: 62%; animation-delay: 10s; animation-duration: 24s, 9s; }
+        .particle.square:nth-child(21) { width: 20px; height: 20px; left: 72%; animation-delay: 4s; animation-duration: 27s, 11s; }
+        .particle.square:nth-child(22) { width: 26px; height: 26px; left: 92%; animation-delay: 7s; animation-duration: 31s, 7s; }
+
+        /* Hexagons with pulsing colors */
+        .particle.hexagon {
+            width: 30px;
+            height: 17px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            animation: floatPulse 20s linear infinite, colorCycle 9s ease-in-out infinite;
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
+        }
+
+        .particle.hexagon:before,
+        .particle.hexagon:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+        }
+
+        .particle.hexagon:before { bottom: 100%; border-bottom: 8.5px solid rgba(255, 255, 255, 0.1); }
+        .particle.hexagon:after { top: 100%; border-top: 8.5px solid rgba(255, 255, 255, 0.1); }
+
+        .particle.hexagon:nth-child(23) { left: 10%; animation-delay: 6s; animation-duration: 24s, 10s; }
+        .particle.hexagon:nth-child(24) { left: 30%; animation-delay: 10s; animation-duration: 29s, 8s; }
+        .particle.hexagon:nth-child(25) { left: 50%; animation-delay: 3s; animation-duration: 26s, 12s; }
+        .particle.hexagon:nth-child(26) { left: 70%; animation-delay: 12s; animation-duration: 31s, 6s; }
+        .particle.hexagon:nth-child(27) { left: 90%; animation-delay: 1s; animation-duration: 23s, 9s; }
+
+        /* Glowing orbs with intense color cycling */
+        .particle.orb {
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 70%, transparent 100%);
+            animation: floatGlow 25s linear infinite, colorCycle 5s ease-in-out infinite;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+        }
+
+        .particle.orb:nth-child(28) { width: 50px; height: 50px; left: 7%; animation-delay: 12s; animation-duration: 40s, 6s; }
+        .particle.orb:nth-child(29) { width: 30px; height: 30px; left: 27%; animation-delay: 15s; animation-duration: 35s, 8s; }
+        .particle.orb:nth-child(30) { width: 40px; height: 40px; left: 47%; animation-delay: 8s; animation-duration: 38s, 5s; }
+        .particle.orb:nth-child(31) { width: 35px; height: 35px; left: 67%; animation-delay: 18s; animation-duration: 33s, 7s; }
+        .particle.orb:nth-child(32) { width: 45px; height: 45px; left: 87%; animation-delay: 3s; animation-duration: 42s, 9s; }
+
+        /* Diamonds with spinning colors */
+        .particle.diamond {
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            transform: rotate(45deg);
+            animation: floatSpin 22s linear infinite, colorCycle 6s ease-in-out infinite;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .particle.diamond:nth-child(33) { left: 6%; animation-delay: 9s; animation-duration: 27s, 7s; }
+        .particle.diamond:nth-child(34) { left: 16%; animation-delay: 14s; animation-duration: 31s, 9s; }
+        .particle.diamond:nth-child(35) { left: 26%; animation-delay: 18s; animation-duration: 25s, 5s; }
+        .particle.diamond:nth-child(36) { left: 36%; animation-delay: 2s; animation-duration: 29s, 8s; }
+        .particle.diamond:nth-child(37) { left: 46%; animation-delay: 11s; animation-duration: 33s, 6s; }
+        .particle.diamond:nth-child(38) { left: 56%; animation-delay: 5s; animation-duration: 28s, 10s; }
+        .particle.diamond:nth-child(39) { left: 66%; animation-delay: 16s; animation-duration: 26s, 4s; }
+        .particle.diamond:nth-child(40) { left: 76%; animation-delay: 7s; animation-duration: 30s, 11s; }
+        .particle.diamond:nth-child(41) { left: 86%; animation-delay: 13s; animation-duration: 24s, 8s; }
+        .particle.diamond:nth-child(42) { left: 96%; animation-delay: 20s; animation-duration: 32s, 7s; }
+
+        /* Small Stars */
+        .particle.star {
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float 15s linear infinite, colorCycle 4s ease-in-out infinite;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Generate many small star particles */
+        .particle.star:nth-child(43) { left: 3%; animation-delay: 1s; animation-duration: 18s, 3s; }
+        .particle.star:nth-child(44) { left: 13%; animation-delay: 4s; animation-duration: 21s, 4s; }
+        .particle.star:nth-child(45) { left: 23%; animation-delay: 7s; animation-duration: 16s, 5s; }
+        .particle.star:nth-child(46) { left: 33%; animation-delay: 2s; animation-duration: 19s, 3s; }
+        .particle.star:nth-child(47) { left: 43%; animation-delay: 9s; animation-duration: 22s, 6s; }
+        .particle.star:nth-child(48) { left: 53%; animation-delay: 5s; animation-duration: 17s, 4s; }
+        .particle.star:nth-child(49) { left: 63%; animation-delay: 11s; animation-duration: 20s, 5s; }
+        .particle.star:nth-child(50) { left: 73%; animation-delay: 6s; animation-duration: 23s, 3s; }
+        .particle.star:nth-child(51) { left: 83%; animation-delay: 13s; animation-duration: 15s, 7s; }
+        .particle.star:nth-child(52) { left: 93%; animation-delay: 8s; animation-duration: 24s, 4s; }
+        .particle.star:nth-child(53) { left: 8%; animation-delay: 15s; animation-duration: 18s, 6s; }
+        .particle.star:nth-child(54) { left: 18%; animation-delay: 3s; animation-duration: 21s, 5s; }
+        .particle.star:nth-child(55) { left: 28%; animation-delay: 12s; animation-duration: 16s, 8s; }
+        .particle.star:nth-child(56) { left: 38%; animation-delay: 10s; animation-duration: 19s, 3s; }
+        .particle.star:nth-child(57) { left: 48%; animation-delay: 16s; animation-duration: 22s, 4s; }
+        .particle.star:nth-child(58) { left: 58%; animation-delay: 1s; animation-duration: 17s, 7s; }
+        .particle.star:nth-child(59) { left: 68%; animation-delay: 14s; animation-duration: 20s, 5s; }
+        .particle.star:nth-child(60) { left: 78%; animation-delay: 7s; animation-duration: 23s, 6s; }
+        .particle.star:nth-child(61) { left: 88%; animation-delay: 17s; animation-duration: 15s, 4s; }
+        .particle.star:nth-child(62) { left: 98%; animation-delay: 4s; animation-duration: 24s, 8s; }
+
+        /* Animation Keyframes */
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatRotate {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatPulse {
+            0% {
+                transform: translateY(100vh) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(50vh) scale(1.2);
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatGlow {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+            10% {
+                opacity: 1;
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px);
+                opacity: 0;
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        @keyframes floatSpin {
+            0% {
+                transform: translateY(100vh) rotate(45deg) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(50vh) rotate(225deg) scale(1.3);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(405deg) scale(0.7);
+                opacity: 0;
+            }
+        }
+
+        /* Ambient overlay with color rotation */
+        .ambient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: 
+                radial-gradient(600px circle at 20% 30%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(800px circle at 80% 70%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(400px circle at 50% 50%, rgba(240, 147, 251, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: ambientMove 30s ease-in-out infinite, colorCycle 20s ease-in-out infinite;
+        }
+
+        @keyframes ambientMove {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            33% {
+                transform: scale(1.1) rotate(2deg);
+            }
+            66% {
+                transform: scale(0.9) rotate(-2deg);
+            }
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-bottom: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            position: relative;
+        }
+
+        .divider:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e1e5e9;
+            z-index: 1;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .register-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .register-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s ease;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .back-home:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .notification {
+            margin-bottom: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .notification.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .notification.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+            
+            .back-home {
+                position: relative;
+                top: 0;
+                left: 0;
+                display: inline-block;
+                margin-bottom: 20px;
+                background: rgba(248, 249, 250, 0.9);
+                color: #333;
+            }
+        }

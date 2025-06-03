@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="page" id="profile">
+<section style="padding: 4rem 2rem;">
+<div class="container">
+<h2 class="section-title">My Profile</h2>
+<div class="profile-container">
+<div class="profile-header">
+<div class="profile-avatar" id="profileAvatar"></div>
+<div class="profile-info">
+<h3 id="profileName"></h3>
+<p id="profileEmail"></p>
+<p id="profileInstitution"></p>
+</div>
+<button class="btn btn-outline" onclick="showEditProfileModal()">Edit Profile</button>
+</div>
+<div class="profile-stats">
+<div class="stat-card">
+<h4>Notes Purchased</h4>
+<span id="purchasedCount">0</span>
+</div>
+<div class="stat-card">
+<h4>Notes Sold</h4>
+<span id="soldCount">0</span>
+</div>
+<div class="stat-card">
+<h4>Total Earnings</h4>
+<span id="totalEarnings">Rp 0</span>
+</div>
+</div>
+<div class="profile-actions">
+<button class="btn btn-primary" onclick="showPage('purchased')">View Purchase History</button>
+<button class="btn btn-outline" onclick="showPage('sell')">Sell New Note</button>
+<button class="btn btn-outline" onclick="showModal('changePasswordModal')">Change Password</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BINotes</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+    <!-- Advanced Particle Background -->
+    <div class="particle-container">
+        <div class="particles">
+            <!-- Circles (10 particles) -->
+            <div class="particle circle"></div>
+            <div class="particle circle"></div>
+            <div class="particle circle"></div>
+            <div class="particle circle"></div>
+            <div class="particle circle"></div>
+            <div class="particle circle"></div>
+            <div class="particle circle"></div>
+            <div class="particle circle"></div>
+            <div class="particle circle"></div>
+            <div class="particle circle"></div>
+            
+            <!-- Triangles (6 particles) -->
+            <div class="particle triangle"></div>
+            <div class="particle triangle"></div>
+            <div class="particle triangle"></div>
+            <div class="particle triangle"></div>
+            <div class="particle triangle"></div>
+            <div class="particle triangle"></div>
+            
+            <!-- Squares (6 particles) -->
+            <div class="particle square"></div>
+            <div class="particle square"></div>
+            <div class="particle square"></div>
+            <div class="particle square"></div>
+            <div class="particle square"></div>
+            <div class="particle square"></div>
+            
+            <!-- Hexagons (5 particles) -->
+            <div class="particle hexagon"></div>
+            <div class="particle hexagon"></div>
+            <div class="particle hexagon"></div>
+            <div class="particle hexagon"></div>
+            <div class="particle hexagon"></div>
+            
+            <!-- Glowing Orbs (5 particles) -->
+            <div class="particle orb"></div>
+            <div class="particle orb"></div>
+            <div class="particle orb"></div>
+            <div class="particle orb"></div>
+            <div class="particle orb"></div>
+            
+            <!-- Diamonds (10 particles) -->
+            <div class="particle diamond"></div>
+            <div class="particle diamond"></div>
+            <div class="particle diamond"></div>
+            <div class="particle diamond"></div>
+            <div class="particle diamond"></div>
+            <div class="particle diamond"></div>
+            <div class="particle diamond"></div>
+            <div class="particle diamond"></div>
+            <div class="particle diamond"></div>
+            <div class="particle diamond"></div>
+            
+            <!-- Small Stars (20 particles) -->
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+            <div class="particle star"></div>
+        </div>
+    </div>
+    <div class="ambient-overlay"></div>
+
+    <a href="index.html" class="back-home">← Back to Home</a>
+    
+    <div class="login-container">
+        <div class="logo">BINotes</div>
+        <p class="subtitle">Sign in to your account</p>
+        
+        <div id="notification" class="notification"></div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+        
+        <div class="divider">
+            <span>Don't have an account?</span>
+        </div>
+        
+        <p class="register-text">
+            <a href="./register.html" class="register-link">Create an account</a>
+        </p>
+        
+        <div class="divider">
+            <span>Or</span>
+        </div>
+        
+        <a href="./forgot-password.html" class="forgot-password-link">Forgot your password?</a>
+    </div>
+
+    <script>
+        // Simple authentication without database
+        const DEMO_USERS = [
+            { email: 'test@example.com', password: '123456', name: 'Test User' },
+            { email: 'jane@example.com', password: 'password', name: 'Jane Smith' },
+            { email: 'admin@binotes.com', password: 'admin123', name: 'Admin User' }
+        ];
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }
+
+        function authenticateUser(email, password) {
+            return DEMO_USERS.find(user => user.email === email && user.password === password);
+        }
+
+        function saveUserSession(user) {
+            // Save to localStorage (simple session management)
+            const userData = {
+                email: user.email,
+                name: user.name,
+                loginTime: new Date().toISOString()
+            };
+            
+            console.log('Saving user session:', userData);
+            localStorage.setItem('binotes_user', JSON.stringify(userData));
+            
+            // Verify the data was saved
+            const savedData = localStorage.getItem('binotes_user');
+            console.log('Verified saved data:', savedData);
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            console.log('Login attempt:', email);
+            
+            // Simple validation
+            if (!email || !password) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Authenticate user
+            const user = authenticateUser(email, password);
+            
+            if (user) {
+                showNotification('Login successful! Redirecting...', 'success');
+                saveUserSession(user);
+                
+                // Redirect to the correct home page filename
+                setTimeout(() => {
+                    console.log('Attempting redirect to home.html');
+                    // Updated to match your home page filename
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                showNotification('Invalid email or password. Please try again.', 'error');
+                document.getElementById('password').value = ''; // Clear password field
+            }
+        });
+
+        // Demo credentials helper
+        console.log('Demo Login Credentials:');
+        console.log('Email: test@example.com, Password: 123456');
+        console.log('Email: jane@example.com, Password: password');
+        console.log('Email: admin@binotes.com, Password: admin123');
+
+        // Optional: You can uncomment this if you want to auto-redirect already logged-in users
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const user = JSON.parse(localStorage.getItem('binotes_user') || 'null');
+        //     if (user) {
+        //         console.log('User already logged in, redirecting...');
+        //         window.location.href = 'index.html';
+        //     }
+        // });
+    </script>
+</body>
+</html>

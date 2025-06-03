@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BINotes - Study Notes Platform</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/security.css">
+    <link rel="stylesheet" href="../css/main-style.css">
+    <link rel="stylesheet" href="../css/cart.css">
+</head>
+
+<div id="blockOverlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;background:black;display:none;"></div>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="logo">BINotes</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Find</a></li>
+                <li><a href="#" onclick="showPage('sell')">Sell</a></li>
+                <li><a href="#" onclick="showPage('about')">About Us</a></li>
+            </ul>
+            <div class="nav-actions" id="navActions" style="display: flex;">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="register.html" class="btn btn-primary">Register</a>
+            </div>
+            <div class="user-menu" id="userMenu" style="display: none;">
+                <div class="user-avatar" onclick="toggleUserDropdown()">
+                    <span id="userInitials"></span>
+                </div>
+                <div class="user-dropdown" id="userDropdown">
+                    <a href="#" onclick="showPage('profile')">Profile</a>
+                    <a href="#" onclick="showPage('bucket')">My Bucket</a>
+                    <a href="#" onclick="showPage('purchased')">Purchased Notes</a>
+                    <a href="#" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Success/Error Notifications -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>The Best Study Resources</h1>
+                <p>Save time by focusing on what matters. Study class notes and textbook summaries written by fellow students to quickly understand the essentials</p>
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Search Notes Here" id="searchInput">
+                    <button class="search-btn" onclick="searchNotes()">🔍</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Promotional Banners -->
+        <section class="promos">
+            <div class="container">
+                <h2 class="section-title">Promos</h2>
+                <div class="promo-grid">
+                    <div class="promo-card">
+                        <h3>Get 20% off with minimum purchase Rp. 50000</h3>
+                        <p>Limited time offer!</p>
+                    </div>
+                    <div class="promo-card">
+                        <h3>Buy 1 get 1 notes</h3>
+                        <p>Special deal for students!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Why BINotes?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>Quality Study Materials</h3>
+                        <p>Exceptional study materials that transform complex information into clear, accessible knowledge</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3>Earn Money Quickly</h3>
+                        <p>Each time your document is sold, you earn money. This money is immediately credited to your account</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Easy to Upload</h3>
+                        <p>In less than a minute, you have created an account, set the price of your document and started selling!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section class="notes-section">
+            <div class="container">
+                <h2 class="section-title">Recommendations</h2>
+                <div class="filter-bar">
+                    <select id="categoryFilter" onchange="filterNotes()">
+                        <option value="">All Subjects</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Mathematics">Mathematics</option>
+                    </select>
+                    <select id="priceFilter" onchange="filterNotes()">
+                        <option value="">All Prices</option>
+                        <option value="0-20000">Under Rp 20,000</option>
+                        <option value="20000-50000">Rp 20,000 - 50,000</option>
+                        <option value="50000-100000">Above Rp 50,000</option>
+                    </select>
+                </div>
+                <div class="notes-grid" id="notesGrid">
+                    <!-- Notes will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials">
+            <div class="container">
+                <h2 class="section-title">Doubts? Let's hear it from them!</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="user-avatar">IG</div>
+                            <div>
+                                <strong>I Gusti Ngurah</strong>
+                                <div class="stars">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p>"Catatannya super jelas dan rapi! Penjelasan tentang transkripsi dan translasi jadi mudah dipahami, apalagi ada diagram dan contoh soalnya juga. Sangat membantu belajar sebelum ujian, recommended banget!"</p>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="user-avatar">B</div>
+                            <div>
+                                <strong>Babeh</strong>
+                                <div class="stars">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p>"Catatannya sangat membantu dan isinya cukup lengkap, terutama bagian transkripsi dan translasinya jelas. Mungkin akan lebih bagus lagi kalau ditambah sedikit penjelasan aplikasinya dalam bioinformatika. Tapi overall worth it!"</p>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="user-avatar">C</div>
+                            <div>
+                                <strong>Cici</strong>
+                                <div class="stars">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <p>"Materinya padat, jelas, dan mudah dipahami! Penjelasan transkripsi dan translasi sangat runtut, cocok banget buat pemula maupun yang mau review sebelum ujian. Plus, tampilannya rapi dan enak dibaca. Mantap!"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Enhanced Sell Page -->
+    <div id="sell" class="page">
+        <section style="padding: 4rem 2rem;">
+            <div class="container">
+                <h2 class="section-title">Sell Your Notes</h2>
+                <div class="sell-form">
+                    <h3 style="margin-bottom: 1.5rem;">Note Details</h3>
+                    <form id="sellForm">
+                        <div class="form-group">
+                            <label>Name *</label>
+                            <input type="text" name="name" placeholder="Enter note title" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Subject *</label>
+                            <select name="subject" required>
+                                <option value="">Select Subject</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Pages *</label>
+                            <input type="number" name="pages" placeholder="Number of pages" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea name="description" placeholder="Describe your notes..." rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (Rp) *</label>
+                            <input type="number" name="price" placeholder="Set your price" min="1000" required>
+                        </div>
+                        
+                        <!-- Enhanced File Upload Section -->
+                        <div class="form-group">
+                            <label>Upload Notes *</label>
+                            <div class="pdf-upload-container">
+                                <div class="file-upload-enhanced" id="fileUploadArea" onclick="document.getElementById('noteFile').click()">
+                                    <input type="file" id="noteFile" name="file" accept=".pdf" style="display: none;" required>
+                                    <button type="button" class="remove-file-btn" id="removeFileBtn" onclick="removeFile(event)">×</button>
+                                    <div id="uploadContent">
+                                        <div class="upload-icon">📄</div>
+                                        <div class="upload-text">Click to upload your PDF notes</div>
+                                        <div class="upload-hint">Or drag and drop your PDF file here</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- File Info Display -->
+                                <div class="file-info" id="fileInfo">
+                                    <div class="file-name" id="fileName"></div>
+                                    <div class="file-details" id="fileDetails"></div>
+                                </div>
+                                
+                                <!-- PDF Preview Container -->
+                                <div class="pdf-preview-container" id="pdfPreviewContainer">
+                                    <div class="pdf-preview-header">
+                                        <h4 class="pdf-preview-title">PDF Preview</h4>
+                                        <div class="pdf-actions">
+                                            <a href="#" id="downloadBtn" class="btn-sm btn-success" download>Download</a>
+                                            <button type="button" class="btn-sm btn-secondary" onclick="togglePreview()">Hide Preview</button>
+                                        </div>
+                                    </div>
+                                    <embed id="pdfViewer" class="pdf-viewer" type="application/pdf">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Submit for Review</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <section style="padding: 4rem 2rem;">
+            <div class="container">
+                <h2 class="section-title">About Us</h2>
+                <div class="about-content">
+                    <div class="about-section">
+                        <h3>How it started.</h3>
+                        <p>At BINotes, we specialize in creating exceptional study materials that transform complex information into clear, accessible knowledge. From challenging university courses to competitive exam preparation, our dedicated team of academic achievers works meticulously to craft organized, beautifully presented notes that perfectly align with your learning needs and educational goals.</p>
+                    </div>
+                    
+                    <div class="about-section">
+                        <h3>How it's going.</h3>
+                        <p>We offer a comprehensive collection of carefully curated study materials featuring concise explanations, helpful visual aids, and strategic practice examples, ensuring that every concept not only becomes understandable but truly memorable. Whether you're striving to excel in a difficult class, preparing for a critical exam, or simply seeking to deepen your understanding, BINotes is your trusted academic companion.</p>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>What's next?</h3>
+                        <p>We don't stop there, we plan to leverage its strong market presence and customer base to expand into new geographical regions and diversify its service offerings. This expansion might involve opening new branches or forming strategic partnerships with local suppliers and venues.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile" class="page">
+        <section style="padding: 4rem 2rem;">
+            <div class="container">
+                <h2 class="section-title">My Profile</h2>
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profileAvatar"></div>
+                        <div class="profile-info">
+                            <h3 id="profileName"></h3>
+                            <p id="profileEmail"></p>
+                            <p id="profileInstitution"></p>
+                        </div>
+                        <button class="btn btn-outline" onclick="showEditProfileModal()">Edit Profile</button>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-card">
+                            <h4>Notes Purchased</h4>
+                            <span id="purchasedCount">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Notes Sold</h4>
+                            <span id="soldCount">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total Earnings</h4>
+                            <span id="totalEarnings">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="btn btn-primary" onclick="showPage('purchased')">View Purchase History</button>
+                        <button class="btn btn-outline" onclick="showPage('sell')">Sell New Note</button>
+                        <button class="btn btn-outline" onclick="showModal('changePasswordModal')">Change Password</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bucket/Cart Page -->
+    <div id="bucket" class="page">
+        <section style="padding: 4rem 2rem;">
+            <div class="container">
+                <h2 class="section-title">Your Bucket List</h2>
+                <div class="bucket-container">
+                    <div id="bucketItems" class="bucket-items">
+                        <!-- Bucket items will be populated by JavaScript -->
+                    </div>
+                    <div class="bucket-summary">
+                        <div class="summary-card">
+                            <h3>Order Summary</h3>
+                            <div class="summary-line">
+                                <span>Subtotal:</span>
+                                <span id="subtotal">Rp 0</span>
+                            </div>
+                            <div class="summary-line">
+                                <span>Admin Fee:</span>
+                                <span id="adminFee">Rp 1,500</span>
+                            </div>
+                            <div class="summary-line">
+                                <span>Tax (5%):</span>
+                                <span id="tax">Rp 0</span>
+                            </div>
+                            <div class="summary-line total">
+                                <span>Total:</span>
+                                <span id="total">Rp 0</span>
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="proceedToCheckout()" id="checkoutBtn" disabled>Proceed to Checkout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Purchased Notes Page -->
+    <div id="purchased" class="page">
+        <section style="padding: 4rem 2rem;">
+            <div class="container">
+                <h2 class="section-title">Purchased Notes</h2>
+                <div id="purchasedNotes" class="purchased-notes">
+                    <!-- Purchased notes will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="preview-modal">
+        <div class="preview-content">
+            <div class="preview-header">
+                <h3 id="previewTitle">Note Preview</h3>
+                <button class="preview-close" onclick="closePreview()">&times;</button>
+            </div>
+            <div class="preview-body">
+                <div class="preview-note-info">
+                    <div class="preview-thumbnail" id="previewThumbnail">📚</div>
+                    <div class="preview-details">
+                        <h2 id="previewNoteTitle">Note Title</h2>
+                        <div class="preview-meta">
+                            <span><strong>Subject:</strong> <span id="previewSubject">Subject</span></span>
+                            <span><strong>Author:</strong> <span id="previewAuthor">Author</span></span>
+                            <span><strong>Rating:</strong> <span id="previewRating">⭐⭐⭐⭐⭐ 5.0 (0 reviews)</span></span>
+                        </div>
+                        <div class="preview-price" id="previewPrice">Rp 0</div>
+                    </div>
+                </div>
+                
+                <div class="preview-description">
+                    <h4>Description</h4>
+                    <p id="previewDescription">Note description will appear here...</p>
+                </div>
+                
+                <div class="preview-sample">
+                    <div class="container">
+                        <h1>PDF Preview Demo</h1>
+                        
+                        <!-- Timer Display -->
+                        <div class="timer-container">
+                            <div class="timer-display" id="timerDisplay">05:00</div>
+                            <div class="timer-text">Preview time remaining</div>
+                        </div>
+                        
+                        <!-- PDF Preview Section -->
+                        <h4>PDF Preview - First 2 Pages</h4>
+                        <div class="pdf-pages-container" id="pdfContainer">
+                            <div class="pdf-page-viewer" id="pdfPage1">
+                                <canvas id="pdfCanvas1"></canvas>
+                            </div>
+                            <div class="pdf-page-viewer" id="pdfPage2">
+                                <canvas id="pdfCanvas2"></canvas>
+                            </div>
+                            
+                            <!-- Timer Expired Overlay -->
+                            <div class="timer-expired-overlay" id="timerExpiredOverlay">
+                                <div class="expired-message">
+                                    <h3>⏰ Preview Time Expired</h3>
+                                    <p>Your 5-minute preview has ended. Purchase the full PDF to continue reading.</p>
+                                    <button class="btn btn-primary" onclick="buyNowFromPreview()">Buy Now</button>
+                                    <button class="btn btn-outline" onclick="addToCartFromPreview()">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="preview-actions">
+                    <button class="btn btn-outline" onclick="addToCartFromPreview()">Add to Cart</button>
+                    <button class="btn btn-primary" onclick="buyNowFromPreview()">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fullNoteModal" class="preview-modal">
+  <div class="preview-content">
+    <div class="preview-header">
+      <h3 id="fullNoteTitle">Full Note View</h3>
+      <button class="preview-close" onclick="closeFullNote()">&times;</button>
+    </div>
+    <div class="preview-body" style="height: 80vh; overflow: hidden;">
+      <embed id="fullNoteViewer" type="application/pdf" style="width: 100%; height: 100%;" />
+    </div>
+  </div>
+</div>
+
+    <!-- Payment Modals -->
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Select Payment Method</h2>
+                <button class="close" onclick="closeModal('checkoutModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="checkout-container">
+                    <div>
+                        <h3>How would you like to pay?</h3>
+                        <div class="payment-methods">
+                            <div class="payment-method" onclick="selectPaymentMethod('qris')">
+                                <div class="payment-icon qris">🔲</div>
+                                <div class="payment-details">
+                                    <h4>Pay with QRIS</h4>
+                                    <p>Scan QR code with any e-wallet</p>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method" onclick="selectPaymentMethod('ovo')">
+                                <div class="payment-icon ovo">O</div>
+                                <div class="payment-details">
+                                    <h4>Pay with OVO</h4>
+                                    <p>Instant payment via OVO app</p>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method" onclick="selectPaymentMethod('gopay')">
+                                <div class="payment-icon gopay">G</div>
+                                <div class="payment-details">
+                                    <h4>Pay with GoPay</h4>
+                                    <p>Pay using your GoPay balance</p>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method" onclick="selectPaymentMethod('dana')">
+                                <div class="payment-icon dana">D</div>
+                                <div class="payment-details">
+                                    <h4>Pay with DANA</h4>
+                                    <p>Quick payment with DANA</p>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method" onclick="selectPaymentMethod('shopeepay')">
+                                <div class="payment-icon shopeepay">S</div>
+                                <div class="payment-details">
+                                    <h4>Pay with ShopeePay</h4>
+                                    <p>Pay via ShopeePay wallet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <div class="checkout-timer">
+                            ⏰ Your items are reserved for <span id="countdown">30:00</span>
+                        </div>
+                        
+                        <h3>Order Summary</h3>
+                        <div id="checkoutItems">
+                            <!-- Items will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="order-totals">
+                            <div class="total-line">
+                                <span>Subtotal:</span>
+                                <span id="checkoutSubtotal">Rp 0</span>
+                            </div>
+                            <div class="total-line">
+                                <span>Admin Fee:</span>
+                                <span>Rp 1,500</span>
+                            </div>
+                            <div class="total-line">
+                                <span>Tax (5%):</span>
+                                <span id="checkoutTax">Rp 0</span>
+                            </div>
+                            <div class="total-line final">
+                                <span>TOTAL:</span>
+                                <span id="checkoutTotal">Rp 0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn btn-outline" onclick="closeModal('checkoutModal')">Cancel</button>
+                    <button class="btn btn-primary" id="payNowBtn" onclick="processPayment()" disabled>Pay Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QRIS Payment Modal -->
+    <div id="qrisModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Pay with QRIS</h2>
+                <button class="close" onclick="closeModal('qrisModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="qris-container">
+                    <p>Scan this QR code with any e-wallet app</p>
+                    <div class="qr-code" id="qrcode">
+                        <div class="qr-pattern"></div>
+                    </div>
+                    <div class="qris-amount">Total: <span id="qrisAmount">Rp 0</span></div>
+                    
+                    <div class="qris-timer">
+                        ⏰ Payment expires in <span id="qrisCountdown">10:00</span>
+                    </div>
+                    
+                    <div class="qris-status" id="qrisStatus">
+                        <div class="status-indicator">
+                            <div class="loading-spinner"></div>
+                            <p>Waiting for payment...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="qris-actions">
+                        <button class="btn btn-outline" onclick="closeModal('qrisModal')">Cancel Payment</button>
+                        <button class="btn btn-secondary" onclick="refreshQRIS()">Refresh QR Code</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Success Modal -->
+    <div id="paymentSuccessModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Payment Successful!</h2>
+                <button class="close" onclick="closeModal('paymentSuccessModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-container">
+                    <div class="success-icon">✓</div>
+                    <h3>Congratulations!</h3>
+                    <p id="successMessage">Your payment has been processed successfully!</p>
+                    <div class="modal-actions">
+                        <button class="btn btn-outline" onclick="closeModal('paymentSuccessModal')">Close</button>
+                        <button class="btn btn-primary" onclick="goToPurchasedNotes()">View My Notes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div style="border-top: 1px solid #555; padding-top: 1rem; margin-top: 1rem;">
+                <strong>INDONESIA</strong>
+            </div>
+            <p>&copy; 2024 BINotes. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript -->
+    <script>
+        // Global variables for user state and notes
+        let currentUser = null;
+        let currentFile = null;
+        let isPreviewVisible = true;
+        let notesData = [
+            {
+                id: 1,
+                name: "Computational Biology",
+                subject: "Computer Science",
+                author: "Jonathan Tristan",
+                rating: 4.8,
+                reviews: 51,
+                price: 19999,
+                thumbnail: "📊",
+                description: "Comprehensive notes on computational biology concepts and algorithms."
+            },
+            {
+                id: 2,
+                name: "Code Reengineering",
+                subject: "Computer Science",
+                author: "Jonathan Tristan",
+                rating: 4.7,
+                reviews: 35,
+                price: 14999,
+                thumbnail: "🔧",
+                description: "Detailed guide on code reengineering practices and methodologies."
+            },
+            {
+                id: 3,
+                name: "Agile Software Development",
+                subject: "Computer Science",
+                author: "Jonathan Tristan",
+                rating: 5.0,
+                reviews: 28,
+                price: 9999,
+                thumbnail: "⚡",
+                description: "Complete notes on agile development methodologies and practices."
+            }
+        ];
+
+        // Payment Variables
+        let selectedPaymentMethod = null;
+        let checkoutTimer = null;
+        let checkoutTimeLeft = 30 * 60; // 30 minutes
+        let qrisTimer = null;
+        let qrisTimeLeft = 600; // 10 minutes
+        let previewTimeRemaining = 5 * 60;
+        let previewTimerInterval = null;
+        let currentPreviewNote = null;
+
+        // Utility Functions
+        function formatCurrency(amount) {
+            return 'Rp ' + amount.toLocaleString();
+        }
+
+        function getUserInitials(name) {
+            if (!name) return 'U';
+            const names = name.split(' ');
+            if (names.length >= 2) {
+                return (names[0][0] + names[1][0]).toUpperCase();
+            }
+            return name[0].toUpperCase();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function getRandomGradient() {
+            const gradients = [
+                'linear-gradient(45deg, #ffeaa7, #fab1a0)',
+                'linear-gradient(45deg, #a8e6cf, #88d8c0)',
+                'linear-gradient(45deg, #ffd93d, #ff6b6b)',
+                'linear-gradient(45deg, #74b9ff, #0984e3)',
+                'linear-gradient(45deg, #fd79a8, #e84393)',
+                'linear-gradient(45deg, #fdcb6e, #e17055)'
+            ];
+            return gradients[Math.floor(Math.random() * gradients.length)];
+        }
+
+        function getSubjectIcon(subject) {
+            const icons = {
+                'Computer Science': '💻',
+                'Biology': '🧬',
+                'Engineering': '⚙️',
+                'Mathematics': '📐',
+                'Physics': '🔬',
+                'Chemistry': '⚗️'
+            };
+            return icons[subject] || '📚';
+        }
+
+        function generateOrderId() {
+            return 'ORD' + Date.now() + Math.random().toString(36).substr(2, 5).toUpperCase();
+        }
+
+        // Modal Functions
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            
+            // Reset payment selection when closing checkout modal
+            if (modalId === 'checkoutModal') {
+                selectedPaymentMethod = null;
+                document.querySelectorAll('.payment-method').forEach(pm => {
+                    pm.classList.remove('selected');
+                });
+                const payNowBtn = document.getElementById('payNowBtn');
+                if (payNowBtn) payNowBtn.disabled = true;
+                stopCheckoutTimer();
+            }
+            
+            // Stop QRIS timer when closing QRIS modal
+            if (modalId === 'qrisModal' && qrisTimer) {
+                clearInterval(qrisTimer);
+            }
+        }
+
+        // Authentication Functions
+        function checkAuthState() {
+            const savedUser = localStorage.getItem('binotes_user');
+            
+            if (savedUser) {
+                try {
+                    const user = JSON.parse(savedUser);
+                    const loginTime = new Date(user.loginTime);
+                    const now = new Date();
+                    const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+
+                    // Session expires after 24 hours
+                    if (hoursDiff >= 24) {
+                        localStorage.removeItem('binotes_user');
+                        showLoggedOutState();
+                        return false;
+                    }
+
+                    // User is logged in
+                    currentUser = user;
+                    showLoggedInState(user);
+                    return true;
+                } catch (e) {
+                    localStorage.removeItem('binotes_user');
+                    showLoggedOutState();
+                    return false;
+                }
+            } else {
+                showLoggedOutState();
+                return false;
+            }
+        }
+
+        function showLoggedInState(user) {
+            console.log('Showing logged in state for:', user.name);
+            
+            // Hide login/register buttons
+            const navActions = document.getElementById('navActions');
+            if (navActions) {
+                navActions.style.display = 'none';
+            }
+
+            // Show user menu
+            const userMenu = document.getElementById('userMenu');
+            if (userMenu) {
+                userMenu.style.display = 'flex';
+            }
+
+            // Set user initials
+            const userInitials = document.getElementById('userInitials');
+            if (userInitials) {
+                userInitials.textContent = getUserInitials(user.name);
+            }
+            
+            // Update profile information
+            updateProfileDisplay(user);
+        }
+
+        function updateProfileDisplay(user) {
+            // Update profile page
+            const profileName = document.getElementById('profileName');
+            const profileEmail = document.getElementById('profileEmail');
+            const profileAvatar = document.getElementById('profileAvatar');
+            const purchasedCount = document.getElementById('purchasedCount');
+            const soldCount = document.getElementById('soldCount');
+            const totalEarnings = document.getElementById('totalEarnings');
+            
+            if (profileName) profileName.textContent = user.name || 'User';
+            if (profileEmail) profileEmail.textContent = user.email || 'No email';
+            if (profileAvatar) profileAvatar.textContent = getUserInitials(user.name);
+            
+            // Update stats
+            const purchasedNotes = user.purchasedNotes || [];
+            if (purchasedCount) purchasedCount.textContent = purchasedNotes.length;
+            if (soldCount) soldCount.textContent = '0'; // Placeholder
+            if (totalEarnings) totalEarnings.textContent = 'Rp 0'; // Placeholder
+            
+            // Update purchased notes page
+            renderPurchasedNotes(purchasedNotes);
+        }
+
+        function renderPurchasedNotes(purchasedNotes) {
+            const purchasedNotesContainer = document.getElementById('purchasedNotes');
+            if (!purchasedNotesContainer) return;
+            
+            if (purchasedNotes.length === 0) {
+                purchasedNotesContainer.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: #666;">
+                        <h3>No purchased notes yet</h3>
+                        <p>When you purchase notes, they will appear here.</p>
+                        <button class="btn btn-primary" onclick="showPage('home')">Browse Notes</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            purchasedNotesContainer.innerHTML = purchasedNotes.map(note => `
+                <div class="purchased-note-card">
+                    <div class="note-thumbnail" style="background: ${getRandomGradient()};">
+                        ${note.thumbnail || '📄'}
+                    </div>
+                    <div class="note-details">
+                        <h3>${note.name}</h3>
+                        <p><strong>Subject:</strong> ${note.subject}</p>
+                        <p><strong>Author:</strong> ${note.author}</p>
+                        <p><strong>Purchase Date:</strong> ${new Date(note.purchaseDate).toLocaleDateString()}</p>
+                        <p><strong>Order ID:</strong> ${note.orderId}</p>
+                        <p><strong>Payment Method:</strong> ${note.paymentMethod}</p>
+                        <p><strong>Price:</strong> ${formatCurrency(note.purchasePrice)}</p>
+                    </div>
+                    <div class="note-actions">
+                        <button class="btn btn-primary" onclick="downloadNote('${note.orderId}')">Download</button>
+                        <button class="btn btn-outline" onclick="viewNote('${note.orderId}')">View</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showLoggedOutState() {
+            console.log('Showing logged out state');
+            
+            // Show login/register buttons
+            const navActions = document.getElementById('navActions');
+            if (navActions) {
+                navActions.style.display = 'flex';
+            }
+
+            // Hide user menu
+            const userMenu = document.getElementById('userMenu');
+            if (userMenu) {
+                userMenu.style.display = 'none';
+            }
+
+            // Clear user initials
+            const userInitials = document.getElementById('userInitials');
+            if (userInitials) {
+                userInitials.textContent = '';
+            }
+
+            currentUser = null;
+        }
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('binotes_user');
+            currentUser = null;
+            showLoggedOutState();
+            
+            // Redirect to home page
+            showPage('home');
+            
+            // Show notification
+            showNotification('Logged out successfully', 'success');
+        }
+
+        // Notification Functions
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            if (notification) {
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.style.display = 'block';
+                
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Page Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // Close user dropdown if open
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                dropdown.style.display = 'none';
+            }
+        }
+
+        // Notes Functions
+        function createNoteCard(note) {
+            return `
+                <div class="note-card" data-subject="${note.subject}" data-price="${note.price}">
+                    <div class="note-thumbnail" style="background: ${getRandomGradient()};" onclick="showPreview(${note.id})">
+                        ${note.thumbnail}
+                    </div>
+                    <div class="note-content">
+                        <h3 class="note-title" onclick="showPreview(${note.id})">${note.name}</h3>
+                        <p class="note-author">by ${note.author}</p>
+                        <div class="note-rating">
+                            <div class="stars">⭐⭐⭐⭐⭐</div>
+                            <span>${note.rating}(${note.reviews})</span>
+                        </div>
+                        <div class="note-price">Rp ${note.price.toLocaleString()}</div>
+                        <div class="note-actions">
+                            <button class="btn btn-outline" onclick="event.stopPropagation(); addToCart(${note.id})">Add to Cart</button>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); buyNow(${note.id})">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderNotes(notes = notesData) {
+            const notesGrid = document.getElementById('notesGrid');
+            if (notesGrid) {
+                notesGrid.innerHTML = notes.map(note => createNoteCard(note)).join('');
+            }
+        }
+
+        function filterNotes() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const priceFilter = document.getElementById('priceFilter').value;
+            
+            let filteredNotes = notesData;
+            
+            // Filter by category
+            if (categoryFilter) {
+                filteredNotes = filteredNotes.filter(note => note.subject === categoryFilter);
+            }
+            
+            // Filter by price
+            if (priceFilter) {
+                const [min, max] = priceFilter.split('-').map(Number);
+                filteredNotes = filteredNotes.filter(note => {
+                    if (max) {
+                        return note.price >= min && note.price <= max;
+                    } else {
+                        return note.price >= min;
+                    }
+                });
+            }
+            
+            renderNotes(filteredNotes);
+        }
+
+        function searchNotes() {
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput.value.toLowerCase().trim();
+            
+            if (!query) {
+                renderNotes();
+                return;
+            }
+            
+            const filteredNotes = notesData.filter(note => 
+                note.name.toLowerCase().includes(query) ||
+                note.subject.toLowerCase().includes(query) ||
+                note.author.toLowerCase().includes(query) ||
+                note.description.toLowerCase().includes(query)
+            );
+            
+            renderNotes(filteredNotes);
+        }
+
+        function addNoteToCollection(noteData) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const base64File = e.target.result;
+
+                const newNote = {
+                    id: notesData.length + 1,
+                    name: noteData.name,
+                    subject: noteData.subject,
+                    author: currentUser ? currentUser.name : 'Anonymous',
+                    rating: 5.0,
+                    reviews: 0,
+                    price: parseInt(noteData.price),
+                    thumbnail: getSubjectIcon(noteData.subject),
+                    description: noteData.description || `Study notes for ${noteData.subject}`,
+                    fileBase64: base64File
+                };
+
+                notesData.push(newNote);
+                renderNotes();
+                showNotification('Your notes have been added successfully!', 'success');
+
+                // Reset form
+                const sellForm = document.getElementById('sellForm');
+                if (sellForm) sellForm.reset();
+                removeFile(new Event('click'));
+
+                setTimeout(() => {
+                    showPage('home');
+                }, 1500);
+            };
+
+            if (noteData.file) {
+                reader.readAsDataURL(noteData.file);
+            } else {
+                showNotification('File is missing!', 'error');
+            }
+        }
+
+
+        // Preview Functions
+                function showPreview(noteId) {
+    const note = notesData.find(n => n.id === noteId);
+    if (!note) return;
+
+    currentPreviewNote = note;
+
+    // Keys
+    const startKey = `preview_start_${note.id}`;
+    const expiredKey = `preview_expired_${note.id}`;
+    const now = Date.now();
+    const startTime = parseInt(localStorage.getItem(startKey), 10);
+    const duration = 5 * 60 * 1000; // 5 minutes in milliseconds
+    const expiredOverlay = document.getElementById('timerExpiredOverlay');
+    const pdfContainer = document.getElementById('pdfContainer');
+    const timerDisplay = document.getElementById('timerDisplay');
+
+    // Update preview content
+    document.getElementById('previewRating').textContent = `⭐⭐⭐⭐⭐ ${note.rating} (${note.reviews} reviews)`;
+    document.getElementById('previewPrice').textContent = `Rp ${note.price.toLocaleString()}`;
+    document.getElementById('previewDescription').textContent = note.description;
+    document.getElementById('previewThumbnail').textContent = note.thumbnail;
+    document.getElementById('previewThumbnail').style.background = getRandomGradient();
+
+    // Tampilkan modal preview
+    document.getElementById('previewModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+
+    // Logika utama: jika belum pernah mulai, mulai sekarang
+    if (!startTime || isNaN(startTime)) {
+        localStorage.setItem(startKey, now.toString());
+        startPreviewTimer(now); // mulai dari sekarang
+    } else {
+        const elapsed = now - startTime;
+
+        if (elapsed >= duration) {
+            // Sudah habis waktunya
+            expiredOverlay.style.display = 'flex';
+            pdfContainer.classList.add('blur-preview');
+            if (timerDisplay) timerDisplay.textContent = '00:00';
+        } else {
+            // Masih ada sisa waktu
+            startPreviewTimer(startTime); // lanjutkan timer dari waktu awal
+        }
+    }
+}
+
+
+
+        function closePreview() {
+            document.getElementById('pdfContainer')?.classList.remove('blur-preview');
+            document.getElementById('previewModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            currentPreviewNote = null;
+            
+            // Stop preview timer
+            if (previewTimerInterval) {
+                clearInterval(previewTimerInterval);
+                previewTimerInterval = null;
+            }
+        }
+
+        function addToCartFromPreview() {
+            if (currentPreviewNote) {
+                addToCart(currentPreviewNote.id);
+                closePreview();
+            }
+        }
+
+        function buyNowFromPreview() {
+            if (currentPreviewNote) {
+                buyNow(currentPreviewNote.id);
+                closePreview();
+            }
+        }
+
+        function startPreviewTimer(startTime) {
+    const timerDisplay = document.getElementById('timerDisplay');
+    const expiredOverlay = document.getElementById('timerExpiredOverlay');
+    const pdfContainer = document.getElementById('pdfContainer');
+
+    const duration = 3 * 60 * 1000; // 5 minutes in ms
+
+    if (previewTimerInterval) clearInterval(previewTimerInterval);
+
+    previewTimerInterval = setInterval(() => {
+        const now = Date.now();
+        const elapsed = now - startTime;
+        const remaining = Math.max(0, Math.floor((duration - elapsed) / 1000));
+
+        const minutes = Math.floor(remaining / 60);
+        const seconds = remaining % 60;
+        const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        if (timerDisplay) timerDisplay.textContent = display;
+
+        if (remaining <= 0) {
+            clearInterval(previewTimerInterval);
+            previewTimerInterval = null;
+
+            pdfContainer?.classList.add('blur-preview');
+            expiredOverlay.style.display = 'flex';
+
+            // Tandai sudah expired
+            if (currentPreviewNote) {
+                localStorage.setItem(`preview_expired_${currentPreviewNote.id}`, 'true');
+            }
+
+            if (timerDisplay) timerDisplay.textContent = '00:00';
+        }
+    }, 1000);
+}
+
+
+function handleFileUpload(file) {
+    if (!file) return;
+    
+    if (file.type !== 'application/pdf') {
+        showNotification('Please upload a valid PDF file only.', 'error');
+        return;
+    }
+
+    currentFile = file;
+    const fileURL = URL.createObjectURL(file);
+
+    // Update UI elements
+    const uploadContent = document.getElementById('uploadContent');
+    const fileInfo = document.getElementById('fileInfo');
+    const fileName = document.getElementById('fileName');
+    const fileDetails = document.getElementById('fileDetails');
+    const pdfViewer = document.getElementById('pdfViewer');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const pdfPreviewContainer = document.getElementById('pdfPreviewContainer');
+    const removeFileBtn = document.getElementById('removeFileBtn');
+    const fileUploadArea = document.getElementById('fileUploadArea');
+
+    // Hide upload content and show file info
+    if (uploadContent) uploadContent.style.display = 'none';
+    if (fileInfo) fileInfo.style.display = 'block';
+    if (removeFileBtn) removeFileBtn.style.display = 'block';
+    
+    // Update file info
+    if (fileName) fileName.textContent = file.name;
+    if (fileDetails) fileDetails.textContent = `Size: ${formatFileSize(file.size)} | Type: PDF`;
+    
+    // Setup PDF viewer
+    if (pdfViewer) {
+        pdfViewer.src = fileURL;
+    }
+    if (downloadBtn) {
+        downloadBtn.href = fileURL;
+        downloadBtn.download = file.name;
+    }
+    
+    // Show preview if enabled
+    if (isPreviewVisible && pdfPreviewContainer) {
+        pdfPreviewContainer.style.display = 'block';
+    }
+    
+    // Change upload area style
+    if (fileUploadArea) {
+        fileUploadArea.style.backgroundColor = '#e8f5e8';
+        fileUploadArea.style.borderColor = '#28a745';
+    }
+
+    // TAMBAHKAN INI: Render PDF preview menggunakan PDF.js
+    setTimeout(() => {
+        renderPDFPreview(file);
+    }, 100);
+
+    showNotification('PDF uploaded successfully!', 'success');
+}
+
+        function removeFile(event) {
+            event.stopPropagation();
+            
+            // Clear current file
+            currentFile = null;
+            
+            // Reset file input
+            const fileInput = document.getElementById('noteFile');
+            if (fileInput) fileInput.value = '';
+            
+            // Reset UI elements
+            const uploadContent = document.getElementById('uploadContent');
+            const fileInfo = document.getElementById('fileInfo');
+            const pdfPreviewContainer = document.getElementById('pdfPreviewContainer');
+            const removeFileBtn = document.getElementById('removeFileBtn');
+            const fileUploadArea = document.getElementById('fileUploadArea');
+            const pdfViewer = document.getElementById('pdfViewer');
+            
+            // Show upload content and hide file info
+            if (uploadContent) uploadContent.style.display = 'block';
+            if (fileInfo) fileInfo.style.display = 'none';
+            if (pdfPreviewContainer) pdfPreviewContainer.style.display = 'none';
+            if (removeFileBtn) removeFileBtn.style.display = 'none';
+            
+            // Reset upload area style
+            if (fileUploadArea) {
+                fileUploadArea.style.backgroundColor = '#f9f9f9';
+                fileUploadArea.style.borderColor = '#ddd';
+            }
+            
+            // Clear PDF viewer
+            if (pdfViewer) pdfViewer.removeAttribute('src');
+            
+            showNotification('File removed successfully', 'info');
+        }
+
+        function togglePreview() {
+            const pdfPreviewContainer = document.getElementById('pdfPreviewContainer');
+            const toggleBtn = pdfPreviewContainer ? pdfPreviewContainer.querySelector('.btn-secondary') : null;
+            
+            if (isPreviewVisible) {
+                if (pdfPreviewContainer) pdfPreviewContainer.style.display = 'none';
+                isPreviewVisible = false;
+                if (toggleBtn) toggleBtn.textContent = 'Show Preview';
+            } else {
+                if (pdfPreviewContainer) pdfPreviewContainer.style.display = 'block';
+                isPreviewVisible = true;
+                if (toggleBtn) toggleBtn.textContent = 'Hide Preview';
+            }
+        }
+
+            function showPage(pageId) {
+        // Hide all pages
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => page.classList.remove('active'));
+
+        // Show selected page
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+            targetPage.classList.add('active');
+        }
+
+        // Close user dropdown if open
+        const dropdown = document.getElementById('userDropdown');
+        if (dropdown) {
+            dropdown.style.display = 'none';
+        }
+
+        // Tambahan untuk render cart
+        if (pageId === 'bucket') {
+            renderCart();
+        }
+    }
+
+
+        function removeFromCart(noteId) {
+        if (!currentUser) return;
+
+        let cart = JSON.parse(localStorage.getItem(`cart_${currentUser.email}`)) || [];
+        cart = cart.filter(note => note.id !== noteId);
+        localStorage.setItem(`cart_${currentUser.email}`, JSON.stringify(cart));
+
+        renderCart();
+        showNotification('Item removed from cart', 'info');
+    }
+
+
+        function renderCart() {
+            const cartContainer = document.getElementById('bucketItems');
+            const subtotalEl = document.getElementById('subtotal');
+            const taxEl = document.getElementById('tax');
+            const totalEl = document.getElementById('total');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            if (!currentUser || !cartContainer) return;
+
+            const cartIds = JSON.parse(localStorage.getItem(`cart_${currentUser.email}`)) || [];
+            const cart = cartIds.map(id => notesData.find(n => n.id === id)).filter(n => n);
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `<div style="text-align: center; padding: 2rem;">Your bucket is empty.</div>`;
+                subtotalEl.textContent = 'Rp 0';
+                taxEl.textContent = 'Rp 0';
+                totalEl.textContent = 'Rp 0';
+                checkoutBtn.disabled = true;
+                return;
+            }
+
+            cartContainer.innerHTML = cart.map(note => `
+                <div class="bucket-item">
+                    <div class="bucket-thumbnail">${note.thumbnail}</div>
+                    <div class="bucket-info">
+                        <h4>${note.name}</h4>
+                        <p><strong>Subject:</strong> ${note.subject}</p>
+                        <p><strong>Price:</strong> Rp ${note.price.toLocaleString()}</p>
+                    </div>
+                    <button class="btn btn-outline" onclick="removeFromCart(${note.id})">Remove</button>
+                </div>
+            `).join('');
+
+            const subtotal = cart.reduce((sum, note) => sum + note.price, 0);
+            const tax = Math.round(subtotal * 0.05);
+            const adminFee = 1500;
+            const total = subtotal + tax + adminFee;
+
+            subtotalEl.textContent = formatCurrency(subtotal);
+            taxEl.textContent = formatCurrency(tax);
+            totalEl.textContent = formatCurrency(total);
+            checkoutBtn.disabled = false;
+        }
+
+
+
+        // Cart and Purchase Functions
+        function addToCart(noteId) {
+            if (!currentUser) {
+                showNotification('Please login to add items to cart', 'error');
+                return;
+            }
+
+            const key = `cart_${currentUser.email}`;
+            const cart = JSON.parse(localStorage.getItem(key)) || [];
+
+            if (cart.includes(noteId)) {
+                showNotification('Item is already in your cart', 'info');
+                return;
+            }
+
+            cart.push(noteId);
+            localStorage.setItem(key, JSON.stringify(cart));
+            showNotification('Note added to cart!', 'success');
+            renderCart();
+        }
+
+
+
+        function buyNow(noteId) {
+            window.currentPurchaseIsFromCart = false;
+
+            if (!currentUser) {
+                showNotification('Please login to purchase', 'error');
+                return;
+            }
+            
+            const note = notesData.find(n => n.id === noteId);
+            if (!note) {
+                showNotification('Note not found', 'error');
+                return;
+            }
+            
+            // Set up single item purchase
+            updateCheckoutModal([note]);
+            showModal('checkoutModal');
+            startCheckoutTimer();
+        }
+
+        // Payment Functions
+        function updateCheckoutModal(items) {
+            const checkoutItems = document.getElementById('checkoutItems');
+            const checkoutSubtotal = document.getElementById('checkoutSubtotal');
+            const checkoutTax = document.getElementById('checkoutTax');
+            const checkoutTotal = document.getElementById('checkoutTotal');
+            
+            if (checkoutItems) {
+                checkoutItems.innerHTML = items.map(note => `
+                    <div class="order-item">
+                        <div class="item-image">${note.thumbnail || '📄'}</div>
+                        <div class="item-details">
+                            <h5>${note.name}</h5>
+                            <p>QTY: 1</p>
+                        </div>
+                        <div class="item-price">${formatCurrency(note.price)}</div>
+                    </div>
+                `).join('');
+            }
+            
+            const subtotal = items.reduce((sum, note) => sum + note.price, 0);
+            const adminFee = 1500;
+            const tax = Math.round(subtotal * 0.05);
+            const total = subtotal + adminFee + tax;
+            
+            if (checkoutSubtotal) checkoutSubtotal.textContent = formatCurrency(subtotal);
+            if (checkoutTax) checkoutTax.textContent = formatCurrency(tax);
+            if (checkoutTotal) checkoutTotal.textContent = formatCurrency(total);
+            
+            // Store current purchase for completion
+            window.currentPurchase = items;
+        }
+
+        function startCheckoutTimer() {
+            checkoutTimeLeft = 30 * 60;
+            const countdownEl = document.getElementById('countdown');
+            
+            if (checkoutTimer) clearInterval(checkoutTimer);
+            
+            checkoutTimer = setInterval(() => {
+                const minutes = Math.floor(checkoutTimeLeft / 60);
+                const seconds = checkoutTimeLeft % 60;
+                const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (countdownEl) countdownEl.textContent = timeString;
+                
+                if (checkoutTimeLeft <= 0) {
+                    clearInterval(checkoutTimer);
+                    closeModal('checkoutModal');
+                    showNotification('Checkout session expired. Please try again.', 'error');
+                }
+                
+                checkoutTimeLeft--;
+            }, 1000);
+        }
+
+        function stopCheckoutTimer() {
+            if (checkoutTimer) {
+                clearInterval(checkoutTimer);
+                checkoutTimer = null;
+            }
+        }
+
+        function selectPaymentMethod(method) {
+            // Remove previous selection
+            document.querySelectorAll('.payment-method').forEach(pm => {
+                pm.classList.remove('selected');
+            });
+            
+            // Add selection to clicked method
+            event.currentTarget.classList.add('selected');
+            selectedPaymentMethod = method;
+            
+            // Enable pay button
+            const payNowBtn = document.getElementById('payNowBtn');
+            if (payNowBtn) payNowBtn.disabled = false;
+        }
+
+        function processPayment() {
+            if (!selectedPaymentMethod) {
+                showNotification('Please select a payment method', 'error');
+                return;
+            }
+            
+            if (selectedPaymentMethod === 'qris') {
+                showQRISPayment();
+            } else {
+                processRegularPayment(selectedPaymentMethod);
+            }
+        }
+
+        function showQRISPayment() {
+            const totalElement = document.getElementById('checkoutTotal');
+            const totalText = totalElement ? totalElement.textContent : 'Rp 0';
+            
+            const qrisAmount = document.getElementById('qrisAmount');
+            if (qrisAmount) qrisAmount.textContent = totalText;
+            
+            closeModal('checkoutModal');
+            showModal('qrisModal');
+            
+            startQRISTimer();
+            
+            // Simulate payment success after 5-10 seconds
+            const randomDelay = Math.random() * 5000 + 5000;
+            setTimeout(() => {
+                simulateQRISSuccess();
+            }, randomDelay);
+        }
+
+        function processRegularPayment(method) {
+            const payNowBtn = document.getElementById('payNowBtn');
+            const originalText = payNowBtn.textContent;
+            
+            payNowBtn.innerHTML = '<div class="loading-spinner"></div> Processing...';
+            payNowBtn.disabled = true;
+            
+            setTimeout(() => {
+                completePayment(method.toUpperCase());
+                
+                // Reset button
+                payNowBtn.textContent = originalText;
+                payNowBtn.disabled = false;
+            }, 3000);
+        }
+
+        function startQRISTimer() {
+            qrisTimeLeft = 600;
+            const countdownEl = document.getElementById('qrisCountdown');
+            
+            if (qrisTimer) clearInterval(qrisTimer);
+            
+            qrisTimer = setInterval(() => {
+                const minutes = Math.floor(qrisTimeLeft / 60);
+                const seconds = qrisTimeLeft % 60;
+                const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (countdownEl) countdownEl.textContent = timeString;
+                
+                if (qrisTimeLeft <= 0) {
+                    clearInterval(qrisTimer);
+                    showQRISTimeout();
+                }
+                
+                qrisTimeLeft--;
+            }, 1000);
+        }
+
+        function simulateQRISSuccess() {
+            const statusIndicator = document.getElementById('qrisStatus');
+            if (!statusIndicator) return;
+            
+            statusIndicator.innerHTML = `
+                <div class="status-indicator qris-success">
+                    <p>✅ Payment Successful!</p>
+                </div>
+            `;
+            
+            if (qrisTimer) clearInterval(qrisTimer);
+            
+            const timerSection = document.querySelector('.qris-timer');
+            if (timerSection) timerSection.style.display = 'none';
+            
+            const actionsSection = document.querySelector('.qris-actions');
+            if (actionsSection) {
+                actionsSection.innerHTML = `
+                    <button class="btn btn-primary" onclick="completeQRISPayment()" style="width: 100%;">Continue</button>
+                `;
+            }
+            
+            setTimeout(() => {
+                completeQRISPayment();
+            }, 2000);
+        }
+
+        function completeQRISPayment() {
+            completePayment('QRIS');
+        }
+
+        function refreshQRIS() {
+            const statusIndicator = document.getElementById('qrisStatus');
+            if (statusIndicator) {
+                statusIndicator.innerHTML = `
+                    <div class="status-indicator">
+                        <div class="loading-spinner"></div>
+                        <p>Waiting for payment...</p>
+                    </div>
+                `;
+            }
+            
+            const timerSection = document.querySelector('.qris-timer');
+            if (timerSection) timerSection.style.display = 'block';
+            
+            const actionsSection = document.querySelector('.qris-actions');
+            if (actionsSection) {
+                actionsSection.innerHTML = `
+                    <button class="btn btn-outline" onclick="closeModal('qrisModal')">Cancel Payment</button>
+                    <button class="btn btn-secondary" onclick="refreshQRIS()">Refresh QR Code</button>
+                `;
+            }
+            
+            startQRISTimer();
+            
+            const randomDelay = Math.random() * 5000 + 5000;
+            setTimeout(() => {
+                simulateQRISSuccess();
+            }, randomDelay);
+        }
+
+        function showQRISTimeout() {
+            const statusIndicator = document.getElementById('qrisStatus');
+            if (statusIndicator) {
+                statusIndicator.innerHTML = `
+                    <div class="status-indicator" style="background: #ffebee; color: #c62828;">
+                        <p>⏰ Payment expired</p>
+                    </div>
+                `;
+            }
+            
+            const actionsSection = document.querySelector('.qris-actions');
+            if (actionsSection) {
+                actionsSection.innerHTML = `
+                    <button class="btn btn-outline" onclick="closeModal('qrisModal')">Close</button>
+                    <button class="btn btn-primary" onclick="refreshQRIS()">Try Again</button>
+                `;
+            }
+        }
+
+        function completePayment(paymentMethod) {
+            const purchaseItems = window.currentPurchase || [];
+
+            if (!currentUser) {
+                showNotification('Please login to complete purchase', 'error');
+                return;
+            }
+
+            if (!purchaseItems || purchaseItems.length === 0) {
+                showNotification('No items to purchase', 'error');
+                return;
+            }
+
+            const purchasedNotes = [];
+
+            const filePromises = purchaseItems.map(note => {
+                return new Promise((resolve) => {
+                    // Ambil fileBase64 dari note jika ada, jika tidak ambil dari notesData
+                    const originalNote = notesData.find(n => n.id === note.id);
+                    const base64 = note.fileBase64 || (originalNote ? originalNote.fileBase64 : null);
+
+                    purchasedNotes.push({
+                        ...note,
+                        purchaseDate: new Date().toISOString(),
+                        orderId: generateOrderId(),
+                        paymentMethod: paymentMethod,
+                        purchasePrice: note.price,
+                        fileBase64: base64 || null // tetap simpan meskipun null
+                    });
+                    resolve();
+
+                });
+            });
+
+            Promise.all(filePromises).then(() => {
+                if (!currentUser.purchasedNotes) {
+                    currentUser.purchasedNotes = [];
+                }
+
+                if (window.currentPurchaseIsFromCart) {
+                    localStorage.removeItem(`cart_${currentUser.email}`);
+                    renderCart();
+                    window.currentPurchaseIsFromCart = false;
+                }
+
+                currentUser.purchasedNotes.push(...purchasedNotes);
+                localStorage.setItem('binotes_user', JSON.stringify(currentUser));
+                updateProfileDisplay(currentUser);
+
+                // Tutup semua modal pembayaran
+                closeModal('checkoutModal');
+                closeModal('qrisModal');
+                stopCheckoutTimer();
+
+                // Reset state pembayaran
+                selectedPaymentMethod = null;
+                document.querySelectorAll('.payment-method').forEach(pm => {
+                    pm.classList.remove('selected');
+                });
+
+                // Tampilkan pesan sukses
+                const successMessage = document.getElementById('successMessage');
+                if (successMessage) {
+                    const itemNames = purchasedNotes.map(note => note.name).join(', ');
+                    successMessage.textContent = `Your payment via ${paymentMethod} has been processed successfully! You can now access: ${itemNames}`;
+                }
+
+                showModal('paymentSuccessModal');
+                showNotification(`Payment successful via ${paymentMethod}!`, 'success');
+
+                // Reset pembelian saat ini
+                window.currentPurchase = [];
+            });
+        }
+
+
+        function downloadNote(orderId) {
+            showNotification('Download feature coming soon!', 'info');
+        }
+
+        function viewNote(orderId) {
+            if (!currentUser) return;
+
+            const purchased = currentUser.purchasedNotes || [];
+            const note = purchased.find(n => n.orderId === orderId);
+
+            if (!note) {
+                showNotification('Note not found', 'error');
+                return;
+            }
+
+            if (!note.fileBase64) {
+                showNotification('This note does not have a downloadable file.', 'error');
+                return;
+            }
+
+            const viewer = document.getElementById('fullNoteViewer');
+            const modal = document.getElementById('fullNoteModal');
+            const title = document.getElementById('fullNoteTitle');
+
+            viewer.src = note.fileBase64;
+            title.textContent = note.name;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+
+        function closeFullNote() {
+            const modal = document.getElementById('fullNoteModal');
+            if (modal) modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function downloadNote(orderId) {
+            if (!currentUser) return;
+
+            const purchased = currentUser.purchasedNotes || [];
+            const note = purchased.find(n => n.orderId === orderId);
+
+            if (!note || !note.fileBase64) {
+                showNotification('File not available for this note.', 'error');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.href = note.fileBase64;
+            link.download = `${note.name}.pdf`;
+            link.click();
+        }
+
+ function renderPDFPreview(file) {
+    if (!file) {
+        console.log('No file provided for preview');
+        return;
+    }
+    
+    // Check if PDF.js is loaded
+    if (typeof pdfjsLib === 'undefined') {
+        console.log('PDF.js not loaded, using iframe fallback');
+        
+        // Fallback: use iframe
+        const pdfViewer = document.getElementById('pdfViewer');
+        if (pdfViewer) {
+            const fileURL = URL.createObjectURL(file);
+            pdfViewer.src = fileURL;
+        }
+        return;
+    }
+
+    function createPreviewCanvas() {
+    const pdfPreviewContainer = document.getElementById('pdfPreviewContainer');
+    if (!pdfPreviewContainer) return;
+    
+    // Check if canvas already exists
+    if (document.getElementById('pdfCanvas1')) return;
+    
+    // Create canvas container
+    const canvasContainer = document.createElement('div');
+    canvasContainer.style.cssText = 'display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 10px;';
+    
+    // Create canvas for page 1
+    const canvas1 = document.createElement('canvas');
+    canvas1.id = 'pdfCanvas1';
+    canvas1.style.cssText = 'border: 1px solid #ddd; max-width: 300px;';
+    
+    // Create canvas for page 2
+    const canvas2 = document.createElement('canvas');
+    canvas2.id = 'pdfCanvas2';
+    canvas2.style.cssText = 'border: 1px solid #ddd; max-width: 300px;';
+    
+    const page2Container = document.createElement('div');
+    page2Container.id = 'pdfPage2';
+    page2Container.appendChild(canvas2);
+    
+    canvasContainer.appendChild(canvas1);
+    canvasContainer.appendChild(page2Container);
+    
+    // Insert canvas container before the iframe
+    const pdfViewer = document.getElementById('pdfViewer');
+    if (pdfViewer) {
+        pdfViewer.parentNode.insertBefore(canvasContainer, pdfViewer);
+        // Hide iframe when using canvas
+        pdfViewer.style.display = 'none';
+    } else {
+        pdfPreviewContainer.appendChild(canvasContainer);
+    }
+}
+    
+    const fileReader = new FileReader();
+    fileReader.onload = function() {
+        const typedarray = new Uint8Array(this.result);
+        
+        // Set worker path
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+            console.log('PDF loaded, pages:', pdf.numPages);
+            
+            // Create canvas elements if they don't exist
+            createPreviewCanvas();
+            
+            // Render page 1
+            if (pdf.numPages >= 1) {
+                pdf.getPage(1).then(function(page) {
+                    renderPDFPage(page, 'pdfCanvas1');
+                });
+            }
+            
+            // Render page 2 if it exists
+            if (pdf.numPages >= 2) {
+                pdf.getPage(2).then(function(page) {
+                    renderPDFPage(page, 'pdfCanvas2');
+                });
+            } else {
+                // Hide page 2 container if PDF only has 1 page
+                const page2Container = document.getElementById('pdfPage2');
+                if (page2Container) page2Container.style.display = 'none';
+            }
+        }).catch(function(error) {
+            console.error('Error loading PDF:', error);
+            
+            // Fallback to iframe
+            const pdfViewer = document.getElementById('pdfViewer');
+            if (pdfViewer) {
+                const fileURL = URL.createObjectURL(file);
+                pdfViewer.src = fileURL;
+            }
+        });
+    };
+    fileReader.readAsArrayBuffer(file);
+}
+
+        function renderPDFPage(page, canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const context = canvas.getContext('2d');
+            const viewport = page.getViewport({ scale: 1.2 });
+            
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+            
+            page.render(renderContext).promise.then(function() {
+                console.log('Page rendered successfully');
+            }).catch(function(error) {
+                console.error('Error rendering page:', error);
+            });
+        }
+
+        function goToPurchasedNotes() {
+            closeModal('paymentSuccessModal');
+            showPage('purchased');
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, checking auth state...');
+            
+            const userData = JSON.parse(localStorage.getItem('binotes_user'));
+            if (userData) {
+                userData.purchasedNotes = [];
+                localStorage.setItem('binotes_user', JSON.stringify(userData));
+            }
+
+            
+
+            // Initialize the page
+            showLoggedOutState();
+            checkAuthState();
+            renderNotes(); // Render initial notes
+
+            // Setup file upload event listeners
+            const fileInput = document.getElementById('noteFile');
+            const fileUploadArea = document.getElementById('fileUploadArea');
+
+            if (fileInput && fileUploadArea) {
+                // File input change event
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        handleFileUpload(file);
+                    }
+                });
+
+                // Drag and drop functionality
+                fileUploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    fileUploadArea.classList.add('dragover');
+                });
+
+                fileUploadArea.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    fileUploadArea.classList.remove('dragover');
+                });
+
+                fileUploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    fileUploadArea.classList.remove('dragover');
+                    
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        const file = files[0];
+                        if (file.type === 'application/pdf') {
+                            fileInput.files = files;
+                            handleFileUpload(file);
+                        } else {
+                            showNotification('Please drop a PDF file only.', 'error');
+                        }
+                    }
+                });
+            }
+
+            // Form submission handler
+            const sellForm = document.getElementById('sellForm');
+            if (sellForm) {
+                sellForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    if (!currentFile) {
+                        showNotification('Please upload a PDF file before submitting.', 'error');
+                        return;
+                    }
+
+                    // Get form data
+                    const formData = new FormData(sellForm);
+                    const noteData = {
+                        name: formData.get('name'),
+                        subject: formData.get('subject'),
+                        pages: formData.get('pages'),
+                        description: formData.get('description'),
+                        price: formData.get('price'),
+                        file: currentFile
+                    };
+
+                    // Add note to collection
+                    const newNote = addNoteToCollection(noteData);
+                    
+                    console.log('New note added:', newNote);
+                    showNotification('Your notes have been added successfully!', 'success');
+                    
+                    // Reset the form
+                    sellForm.reset();
+                    removeFile(new Event('click'));
+                    
+                    // Redirect to home page to see the new note
+                    setTimeout(() => {
+                        showPage('home');
+                    }, 1500);
+                });
+            }
+
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchNotes();
+                    }
+                });
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('userMenu');
+            const dropdown = document.getElementById('userDropdown');
+
+            if (userMenu && dropdown && !userMenu.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Close preview when clicking outside the modal content
+        document.addEventListener('click', function(event) {
+            const previewModal = document.getElementById('previewModal');
+            
+            if (event.target === previewModal) {
+                closePreview();
+            }
+        });
+
+        // Close preview with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closePreview();
+            }
+        });
+
+        // Check auth state when page becomes visible
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                checkAuthState();
+            }
+        });
+
+        // Placeholder functions for missing functionality
+        function showEditProfileModal() {
+            showNotification('Profile editing feature coming soon!', 'info');
+        }
+
+        function proceedToCheckout() {
+            window.currentPurchaseIsFromCart = true;
+
+            if (!currentUser) {
+                showNotification('Please login to checkout', 'error');
+                return;
+            }
+
+            const cartIds = JSON.parse(localStorage.getItem(`cart_${currentUser.email}`)) || [];
+            const cartNotes = cartIds.map(id => notesData.find(n => n.id === id)).filter(n => n);
+
+            if (cartNotes.length === 0) {
+                showNotification('Your cart is empty', 'error');
+                return;
+            }
+
+            updateCheckoutModal(cartNotes);
+            showModal('checkoutModal');
+            startCheckoutTimer();
+        }
+
+
+    </script>
+
+    <!-- External Scripts -->
+    <!-- <script src="../js/config.js"></script> -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/notes.js"></script>
+    <!-- <script src="../js/cart.js"></script> -->
+    <script src="../js/payment.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</body>
