@@ -638,6 +638,8 @@
             }
         ];
 
+
+
         // Payment Variables
         let selectedPaymentMethod = null;
         let checkoutTimer = null;
@@ -669,6 +671,15 @@
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
+
+        window.addEventListener('load', () => {
+            Object.keys(sessionStorage).forEach(key => {
+                if (key.startsWith('preview_start_')) {
+                    sessionStorage.removeItem(key);
+                }
+            });
+        });
+
 
         function getRandomGradient() {
             const gradients = [
@@ -1043,18 +1054,17 @@
 
 
         // Preview Functions
-                function showPreview(noteId) {
+function showPreview(noteId) {
     const note = notesData.find(n => n.id === noteId);
     if (!note) return;
 
     currentPreviewNote = note;
 
-    // Keys
+    // Use sessionStorage instead of localStorage
     const startKey = `preview_start_${note.id}`;
-    const expiredKey = `preview_expired_${note.id}`;
     const now = Date.now();
-    const startTime = parseInt(localStorage.getItem(startKey), 10);
-    const duration = 5 * 60 * 1000; // 5 minutes in milliseconds
+    const startTime = parseInt(sessionStorage.getItem(startKey), 10);
+    const duration = 1 * 60 * 1000; // 5 minutes
     const expiredOverlay = document.getElementById('timerExpiredOverlay');
     const pdfContainer = document.getElementById('pdfContainer');
     const timerDisplay = document.getElementById('timerDisplay');
@@ -1066,25 +1076,26 @@
     document.getElementById('previewThumbnail').textContent = note.thumbnail;
     document.getElementById('previewThumbnail').style.background = getRandomGradient();
 
-    // Tampilkan modal preview
+    // Show the preview modal
     document.getElementById('previewModal').style.display = 'block';
     document.body.style.overflow = 'hidden';
 
-    // Logika utama: jika belum pernah mulai, mulai sekarang
+    // Timer logic
     if (!startTime || isNaN(startTime)) {
-        localStorage.setItem(startKey, now.toString());
-        startPreviewTimer(now); // mulai dari sekarang
+        // First time this note is being previewed this session
+        sessionStorage.setItem(startKey, now.toString());
+        startPreviewTimer(now);
     } else {
         const elapsed = now - startTime;
 
         if (elapsed >= duration) {
-            // Sudah habis waktunya
+            // Time expired
             expiredOverlay.style.display = 'flex';
             pdfContainer.classList.add('blur-preview');
             if (timerDisplay) timerDisplay.textContent = '00:00';
         } else {
-            // Masih ada sisa waktu
-            startPreviewTimer(startTime); // lanjutkan timer dari waktu awal
+            // Still time left — optional: continue timer
+            startPreviewTimer(startTime);
         }
     }
 }
@@ -1123,7 +1134,7 @@
     const expiredOverlay = document.getElementById('timerExpiredOverlay');
     const pdfContainer = document.getElementById('pdfContainer');
 
-    const duration = 3 * 60 * 1000; // 5 minutes in ms
+    const duration = 1 * 30 * 1000; // 5 minutes in ms
 
     if (previewTimerInterval) clearInterval(previewTimerInterval);
 
